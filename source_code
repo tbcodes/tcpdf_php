@@ -1,0 +1,69 @@
+<?php
+$numRows = 10;
+$numCols = 5;
+
+echo "<table border='1'>";
+for ($r = 0; $r < $numRows; $r++) {
+    echo "<tr>";
+    for ($c = 0; $c < $numCols; $c++) {
+        echo "<td>" . rand() . "</td>";
+    }
+    echo "</tr>";
+}
+echo "</table>";
+?>
+
+<?php
+require_once('tcpdf/tcpdf.php');
+
+$pdf = new TCPDF();
+$pdf->AddPage();
+
+$pdf->writeHTML($html, true, false, true, false, '');
+
+$pdf->Output('example.pdf', 'D');
+?>
+
+
+// JSPDF
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script>
+    function generatePDF() {
+      var doc = new jsPDF();
+      var specialElementHandlers = {
+        '#editor': function (element, renderer) {
+          return true;
+        }
+      };
+      doc.fromHTML($('#content').html(), 15, 15, {
+        'width': 170,
+        'elementHandlers': specialElementHandlers
+      });
+      doc.save('sample-file.pdf');
+    }
+  </script>
+</head>
+<body>
+  <div id="content">
+    <?php
+      $numRows = 10;
+      $numCols = 5;
+
+      echo "<table border='1'>";
+      for ($r = 0; $r < $numRows; $r++) {
+          echo "<tr>";
+          for ($c = 0; $c < $numCols; $c++) {
+              echo "<td>" . rand() . "</td>";
+          }
+          echo "</tr>";
+      }
+      echo "</table>";
+    ?>
+  </div>
+  <button onclick="generatePDF()">Download PDF</button>
+</body>
+</html>
